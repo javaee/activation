@@ -1,0 +1,129 @@
+#
+# @(#)Defs-solaris.gmk	1.24 96/07/09
+#
+# Makefile to specify compiler flags for programs and libraries
+# targeted to Solaris.  Should not contain any rules.
+#
+
+ARCH = $(shell uname -p)
+
+# This default is redefined during a release build.
+RELEASE = $(shell echo `/usr/ucb/whoami`:`date '+%m/%d/%d-%H:%M'`)
+
+# If -Xa is in CFLAGS_COMMON it will end up ahead of $(POPT) for the
+# optimized build, and that ordering of the flags completely freaks
+# out cc.  Hence, -Xa is instead in each CFLAGS variant.
+ifneq ($(CC_VERSION), gcc)
+CFLAGS_COMMON   = -v
+CFLAGS_OPT      = -Xa $(POPT)
+CFLAGS_DBG      = -Xa -g
+else
+CFLAGS_COMMON   = 
+CFLAGS_OPT      = $(POPT)
+CFLAGS_DBG      = -g
+endif
+
+#
+# Optional global flags with defaults: turn on from command line like
+#
+#   % gnumake THREADS_FLAG=native
+#
+
+# By default use green threads
+THREADS_FLAG = green
+
+ifeq ($(THREADS_FLAG), native)
+    CFLAGS_COMMON += -D_REENTRANT -DNATIVE
+endif
+
+# By default, gprof support is off
+GPROF = false
+ 
+ifeq ($(GPROF), true)
+    CFLAGS_COMMON += -DGPROF -xpg
+endif
+
+# turn JCOV on
+JCOV = true
+
+ifeq ($(JCOV), true)
+ifeq ($(VARIANT), DBG)
+    CFLAGS_COMMON += -DJCOV
+endif
+endif
+
+# Java memory management is based on memory mapping by default, but a
+# system only assuming malloc/free can be built by adding -DUSE_MALLOC 
+
+ifneq ($(CC_VERSION), gcc)
+CPPFLAGS_COMMON = -D$(ARCH) -DSOLARIS2 -DRELEASE='"$(RELEASE)"'
+else
+CPPFLAGS_COMMON = -D$(ARCH) -DHAVE_ALIGNED_LONGLONGS -DHAVE_ALIGNED_DOUBLES -DSOLARIS2 -DRELEASE='"$(RELEASE)"'
+endif
+CPPFLAGS_OPT    = -DTRIMMED
+CPPFLAGS_DBG    = -DDEBUG -DTRACING -DBREAKPTS
+
+ASFLAGS_COMMON  = -P
+ASFLAGS_OPT     =
+ASFLAGS_DBG     =
+
+LDFLAGS_COMMON  = -L$(OPENWINHOME)/lib
+LDFLAGS_OPT     =
+LDFLAGS_DBG     =
+
+LDLIBS_COMMON   =
+LDLIBS_OPT      =
+LDLIBS_DBG      =
+
+ifeq ($(THREADS_FLAG),native)
+    LDLIBS_COMMON += -lthread
+endif
+
+ifeq ($(GPROF), true)
+    LDLIBS_COMMON += -xpg
+endif
+
+#
+# Java variations
+#
+ifeq ($(PRODUCT), java)
+    # Java default optimization -x04
+ifneq ($(CC_VERSION), gcc)
+    _OPT = -xO4
+else
+    _OPT = -O3
+endif
+    CPPFLAGS_DBG    += -DLOGGING -DDBINFO
+    ASFLAGS_COMMON  += -D_ASM
+    LDLIBS_COMMON   += -lm -ldl
+endif
+
+#
+# Hotjava variations
+#
+ifneq ($(PRODUCT), java)
+    # Hotjava default optimization -x02
+ifneq ($(CC_VERSION), gcc)
+    _OPT = -xO2
+else
+    _OPT = -O2
+endif
+endif
+
+#
+# Tools
+#
+ifneq ($(CC_VERSION), gcc)
+CC      = cc
+CPP     = cc -E
+else
+CC      = gcc
+CPP     = gcc -E
+endif
+AS	= as
+LD	= /usr/ccs/bin/ld
+
+OPENWINHOME = /usr/openwin
+
+LIBRARY_SUFFIX = so
+

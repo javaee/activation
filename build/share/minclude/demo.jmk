@@ -1,0 +1,17 @@
+#
+# @(#)demo.jmk	1.3 05/04/07
+#
+FILES_java = \
+	$(TARGDIR)demo/CompViewer.java \
+	$(TARGDIR)demo/DCHTest.java \
+	$(TARGDIR)demo/DCHTest2.java \
+	$(TARGDIR)demo/DHURL.java \
+	$(TARGDIR)demo/FileView.java \
+	$(TARGDIR)demo/JAFApp.java \
+	$(TARGDIR)demo/MCDump.java \
+	$(TARGDIR)demo/MCTest.java \
+	$(TARGDIR)demo/ODCHTest.java \
+	$(TARGDIR)demo/PlainDCH.java \
+	$(TARGDIR)demo/PrefTest.java \
+	$(TARGDIR)demo/SimpleDCF.java \
+	$(TARGDIR)demo/TextInternalizer.java

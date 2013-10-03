@@ -1,0 +1,8 @@
+#
+# @(#)Platform.gmk	1.1 97/09/07
+#
+# Generic definition of PLATFORM, and related, factored-out variables
+#
+
+PLATFORM = solaris
+TOPDIR = ../../$(BUILDDIR)
