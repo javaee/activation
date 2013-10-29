@@ -381,7 +381,10 @@ public class DataHandler implements Transferable {
 	// if it's not set, set it...
 	if (transferFlavors == emptyFlavors)
 	    transferFlavors = getDataContentHandler().getTransferDataFlavors();
-	return transferFlavors;
+	if (transferFlavors == emptyFlavors)
+	    return transferFlavors;
+	else
+	    return (DataFlavor[])transferFlavors.clone();
     }
 
     /**

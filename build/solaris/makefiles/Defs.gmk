@@ -29,9 +29,9 @@ BOOTDIR = $(_BOOTDIR$(ALT_BOOTDIR))$(ALT_BOOTDIR)
 # Default JAVAHOME
 #
 ifeq ($(ARCH), sparc)
-    _JAVAHOME = /java/re/jdk/1.4.2/archive/fcs/binaries/solaris-sparc
+    _JAVAHOME = /java/re/jdk/1.5.0/archive/fcs/binaries/solaris-sparc
 else
-    _JAVAHOME = /java/re/jdk/1.4.2/archive/fcs/binaries/solaris-i586
+    _JAVAHOME = /java/re/jdk/1.5.0/archive/fcs/binaries/solaris-i586
 endif
 
 #
@@ -183,7 +183,7 @@ endif
 #
 # Invoking the Java compiler
 #
-JAVAC_CMD = $(JAVAC) -source 1.4
+JAVAC_CMD = $(JAVAC) -source 1.5
 
 #
 # Set opt level to ALT_OPT if set otherwise _OPT

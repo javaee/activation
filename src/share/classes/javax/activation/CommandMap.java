@@ -40,6 +40,9 @@
 
 package javax.activation;
 
+import java.util.Map;
+import java.util.WeakHashMap;
+
 
 /**
  * The CommandMap class provides an interface to a registry of
@@ -51,6 +54,8 @@ package javax.activation;
  */
 public abstract class CommandMap {
     private static CommandMap defaultCommandMap = null;
+    private static Map<ClassLoader,CommandMap> map =
+				new WeakHashMap<ClassLoader,CommandMap>();
 
     /**
      * Get the default CommandMap.
@@ -69,11 +74,18 @@ public abstract class CommandMap {
      *
      * @return the CommandMap
      */
-    public static CommandMap getDefaultCommandMap() {
-	if (defaultCommandMap == null)
-	    defaultCommandMap = new MailcapCommandMap();
+    public static synchronized CommandMap getDefaultCommandMap() {
+	if (defaultCommandMap != null)
+	    return defaultCommandMap;
 
-	return defaultCommandMap;
+	// fetch per-thread-context-class-loader default
+	ClassLoader tccl = SecuritySupport.getContextClassLoader();
+	CommandMap def = map.get(tccl);
+	if (def == null) {
+	    def = new MailcapCommandMap();
+	    map.put(tccl, def);
+	}
+	return def;
     }
 
     /**
@@ -84,7 +96,7 @@ public abstract class CommandMap {
      * @exception SecurityException if the caller doesn't have permission
      *					to change the default
      */
-    public static void setDefaultCommandMap(CommandMap commandMap) {
+    public static synchronized void setDefaultCommandMap(CommandMap commandMap) {
 	SecurityManager security = System.getSecurityManager();
 	if (security != null) {
 	    try {
@@ -92,13 +104,16 @@ public abstract class CommandMap {
 		security.checkSetFactory();
 	    } catch (SecurityException ex) {
 		// otherwise, we also allow it if this code and the
-		// factory come from the same class loader (e.g.,
+		// factory come from the same (non-system) class loader (e.g.,
 		// the JAF classes were loaded with the applet classes).
-		if (CommandMap.class.getClassLoader() !=
+		if (CommandMap.class.getClassLoader() == null ||
+		    CommandMap.class.getClassLoader() !=
 			    commandMap.getClass().getClassLoader())
 		    throw ex;
 	    }
 	}
+	// remove any per-thread-context-class-loader CommandMap
+	map.remove(SecuritySupport.getContextClassLoader());
 	defaultCommandMap = commandMap;
     }
 
