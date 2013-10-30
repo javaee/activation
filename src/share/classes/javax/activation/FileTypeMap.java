@@ -115,6 +115,8 @@ public abstract class FileTypeMap {
 		    throw ex;
 	    }
 	}
+	// remove any per-thread-context-class-loader FileTypeMap
+	map.remove(SecuritySupport.getContextClassLoader());
 	defaultMap = map;	
     }
 
