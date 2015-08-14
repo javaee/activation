@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright 1997-2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 1997-2015 Sun Microsystems, Inc. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -32,10 +32,6 @@
  * and therefore, elected the GPL Version 2 license, then the option applies
  * only if the new code is made subject to such option by the copyright
  * holder.
- */
-
-/*
- * @(#)FileTypeMap.java	1.9 07/05/14
  */
 
 package javax.activation;
@@ -95,11 +91,11 @@ public abstract class FileTypeMap {
      * Sets the default FileTypeMap for the system. This instance
      * will be returned to callers of getDefaultFileTypeMap.
      *
-     * @param map The FileTypeMap.
+     * @param fileTypeMap The FileTypeMap.
      * @exception SecurityException if the caller doesn't have permission
      *					to change the default
      */
-    public static synchronized void setDefaultFileTypeMap(FileTypeMap map) {
+    public static synchronized void setDefaultFileTypeMap(FileTypeMap fileTypeMap) {
 	SecurityManager security = System.getSecurityManager();
 	if (security != null) {
 	    try {
@@ -109,15 +105,15 @@ public abstract class FileTypeMap {
 		// otherwise, we also allow it if this code and the
 		// factory come from the same (non-system) class loader (e.g.,
 		// the JAF classes were loaded with the applet classes).
-		if (FileTypeMap.class.getClassLoader() == null ||
-		    FileTypeMap.class.getClassLoader() !=
-			map.getClass().getClassLoader())
+		ClassLoader cl = FileTypeMap.class.getClassLoader();
+		if (cl == null || cl.getParent() == null ||
+		    cl != fileTypeMap.getClass().getClassLoader())
 		    throw ex;
 	    }
 	}
 	// remove any per-thread-context-class-loader FileTypeMap
 	map.remove(SecuritySupport.getContextClassLoader());
-	defaultMap = map;	
+	defaultMap = fileTypeMap;	
     }
 
     /**

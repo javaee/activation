@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright 1997-2007 Sun Microsystems, Inc. All rights reserved.
+ * Copyright 1997-2015 Sun Microsystems, Inc. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -34,10 +34,6 @@
  * holder.
  */
 
-/*
- * @(#)CommandMap.java	1.20 07/05/14
- */
-
 package javax.activation;
 
 import java.util.Map;
@@ -56,6 +52,7 @@ public abstract class CommandMap {
     private static CommandMap defaultCommandMap = null;
     private static Map<ClassLoader,CommandMap> map =
 				new WeakHashMap<ClassLoader,CommandMap>();
+
 
     /**
      * Get the default CommandMap.
@@ -106,10 +103,11 @@ public abstract class CommandMap {
 		// otherwise, we also allow it if this code and the
 		// factory come from the same (non-system) class loader (e.g.,
 		// the JAF classes were loaded with the applet classes).
-		if (CommandMap.class.getClassLoader() == null ||
-		    CommandMap.class.getClassLoader() !=
-			    commandMap.getClass().getClassLoader())
+		ClassLoader cl = CommandMap.class.getClassLoader();
+		if (cl == null || cl.getParent() == null ||
+		    cl != commandMap.getClass().getClassLoader()) {
 		    throw ex;
+		}
 	    }
 	}
 	// remove any per-thread-context-class-loader CommandMap
