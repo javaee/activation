@@ -1,8 +1,0 @@
-#
-# @(#)com_sun_activation_viewers.jmk	1.1 99/03/06
-#
-FILES_java = \
-	$(TARGDIR)com/sun/activation/viewers/ImageViewer.java \
-	$(TARGDIR)com/sun/activation/viewers/ImageViewerCanvas.java \
-	$(TARGDIR)com/sun/activation/viewers/TextEditor.java \
-	$(TARGDIR)com/sun/activation/viewers/TextViewer.java

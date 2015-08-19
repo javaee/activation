@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-SCCS-ID: @(#)jaf.mf	1.2	05/05/23
-Extension-Name: javax.activation
-Specification-Title: JavaBeans(TM) Activation Framework Specification
-Specification-Version: 1.1
-Specification-Vendor: Sun Microsystems, Inc.
-Implementation-Version: %RELEASE%
-Implementation-Vendor: Sun Microsystems, Inc.
-Implementation-Vendor-Id: com.sun
