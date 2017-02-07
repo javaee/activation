@@ -130,6 +130,9 @@ public class CommandInfo {
      *			passed to the command.
      * @param loader	The ClassLoader to be used to instantiate the bean.
      * @return The bean
+     * @exception	IOException	for failures reading data
+     * @exception	ClassNotFoundException	if command object class can't
+     *						be found
      * @see java.beans.Beans#instantiate
      * @see javax.activation.CommandObject
      */

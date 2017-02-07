@@ -55,7 +55,6 @@ import com.sun.activation.registries.LogSupport;
  * system for MIME types file entries. When requests are made
  * to search for MIME types in the MimetypesFileTypeMap, it searches  
  * MIME types files in the following order:
- * <p>
  * <ol>
  * <li> Programmatically added entries to the MimetypesFileTypeMap instance.
  * <li> The file <code>.mime.types</code> in the user's home directory.
@@ -74,7 +73,7 @@ import com.sun.activation.registries.LogSupport;
  *
  * <code>
  * # comments begin with a '#'<br>
- * # the format is &lt;mime type> &lt;space separated file extensions><br>
+ * # the format is &lt;mime type&gt; &lt;space separated file extensions&gt;<br>
  * # for example:<br>
  * text/plain    txt text TXT<br>
  * # this would map file.txt, file.text, and file.TXT to<br>
@@ -274,6 +273,7 @@ public class MimetypesFileTypeMap extends FileTypeMap {
      * added from the named file.
      *
      * @param mimeTypeFileName	the file name
+     * @exception	IOException	for errors reading the file
      */
     public MimetypesFileTypeMap(String mimeTypeFileName) throws IOException {
 	this();
