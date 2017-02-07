@@ -1,7 +1,7 @@
-	  **JAVABEANS(tm) ACTIVATION FRAMEWORK 1.1.1 RELEASE**
+	  **JAVABEANS(tm) ACTIVATION FRAMEWORK 1.2 RELEASE**
 
 Thank you for downloading the release of the JavaBeans(tm) Activation
-Framework! We hope you find it useful.  Included in this release are
+Framework!  We hope you find it useful.  Included in this release are
 the following files and directories:
 
 README.txt     : This file!
@@ -12,15 +12,10 @@ RELNOTES.txt   : The release notes for this release including,
 
 LICENSE.txt    : The license covering this software.
 
-activation.jar : This JAR file contains the classes that
+javax.activation.jar : This JAR file contains the classes that
                  make up JavaBeans(tm) Activation Framework.
 
-demos          : This directory contains some simple *unsupported*
+demo           : This directory contains some simple *unsupported*
                  demos that make use of some of the JAF's features.
 
-docs           : This directory contains the Javadoc API descriptions
-                 for the public classes in the JAF.
-
-If you encounter any problems please contact us at:
-
-  activation-comments@sun.com
+doc            : This directory contains the JAF specification.
