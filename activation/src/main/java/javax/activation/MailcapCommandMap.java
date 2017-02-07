@@ -1,7 +1,7 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
- * Copyright (c) 1997-2015 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997-2017 Oracle and/or its affiliates. All rights reserved.
  *
  * The contents of this file are subject to the terms of either the GNU
  * General Public License Version 2 only ("GPL") or the Common Development
@@ -63,11 +63,16 @@ import com.sun.activation.registries.LogSupport;
  * <ol>
  * <li> Programatically added entries to the MailcapCommandMap instance.
  * <li> The file <code>.mailcap</code> in the user's home directory.
- * <li> The file &lt;<i>java.home</i>&gt;<code>/lib/mailcap</code>.
+ * <li> The file <code><i>java.home</i>/<i>conf</i>/mailcap</code>.
  * <li> The file or resources named <code>META-INF/mailcap</code>.
  * <li> The file or resource named <code>META-INF/mailcap.default</code>
  * (usually found only in the <code>activation.jar</code> file).
  * </ol>
+ * <p>
+ * (Where <i>java.home</i> is the value of the "java.home" System property
+ * and <i>conf</i> is the directory named "conf" if it exists,
+ * otherwise the directory named "lib"; the "conf" directory was
+ * introduced in JDK 1.9.)
  * <p>
  * <b>Mailcap file format:</b><p>
  *
@@ -136,6 +141,24 @@ public class MailcapCommandMap extends CommandMap {
     private MailcapFile[] DB;
     private static final int PROG = 0;	// programmatically added entries
 
+    private static final String confDir;
+
+    static {
+	String dir = null;
+	try {
+	    String home = System.getProperty("java.home");
+	    String newdir = home + File.separator + "conf";
+	    File conf = new File(newdir);
+	    if (conf.exists())
+		dir = newdir + File.separator;
+	    else
+		dir = home + File.separator + "lib" + File.separator;
+	} catch (Exception ex) {
+	    // ignore any exceptions
+	}
+	confDir = dir;
+    }
+
     /**
      * The default Constructor.
      */
@@ -158,14 +181,12 @@ public class MailcapCommandMap extends CommandMap {
 	} catch (SecurityException ex) {}
 
 	LogSupport.log("MailcapCommandMap: load SYS");
-	try {
+	if (confDir != null) {
 	    // check system's home
-	    String system_mailcap = System.getProperty("java.home") +
-		File.separator + "lib" + File.separator + "mailcap";
-	    mf = loadFile(system_mailcap);
+	    mf = loadFile(confDir + "mailcap");
 	    if (mf != null)
 		dbv.add(mf);
-	} catch (SecurityException ex) {}
+	}
 
 	LogSupport.log("MailcapCommandMap: load JAR");
 	// load from the app's jar file
