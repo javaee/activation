@@ -3,19 +3,19 @@
 
     DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
-    Copyright (c) 1997-2015 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 1997-2017 Oracle and/or its affiliates. All rights reserved.
 
     The contents of this file are subject to the terms of either the GNU
     General Public License Version 2 only ("GPL") or the Common Development
     and Distribution License("CDDL") (collectively, the "License").  You
     may not use this file except in compliance with the License.  You can
     obtain a copy of the License at
-    https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html
-    or packager/legal/LICENSE.txt.  See the License for the specific
+    https://oss.oracle.com/licenses/CDDL+GPL-1.1
+    or LICENSE.txt.  See the License for the specific
     language governing permissions and limitations under the License.
 
     When distributing the software, include this License Header Notice in each
-    file and include the License file at packager/legal/LICENSE.txt.
+    file and include the License file at LICENSE.txt.
 
     GPL Classpath Exception:
     Oracle designates this particular file as subject to the "Classpath"
@@ -57,25 +57,22 @@
     <version>1.2.0-SNAPSHOT</version>
     <name>JavaBeans Activation Framework distribution</name>
     <description>${project.name}</description>
-    <!--
-    <url>http://javamail.java.net</url>
 
     <scm>
-	<connection>scm:hg:http://java.net/hg/javamail~mercurial</connection>
-	<developerConnection>scm:hg:https://java.net/hg/javamail~mercurial</developerConnection>
-	<url>http://java.net/hg/javamail~mercurial</url>
+	<connection>scm:git:https://github.com/javaee/activation.git</connection>
+	<developerConnection>scm:git:git@github.com:javaee/activation.git</developerConnection>
+	<url>https://github.com/javaee/activation</url>
     </scm>
 
     <issueManagement>
-	<system>Bugzilla</system>
-	<url>http://kenai.com/bugzilla</url>
+	<system>GitHub</system>
+	<url>https://github.com/javaee/activation/issues</url>
     </issueManagement>
-    -->
 
     <licenses>
       <license>
 	<name>CDDL/GPLv2+CE</name>
-	<url>https://glassfish.java.net/public/CDDL+GPL_1_1.html</url>
+	<url>https://github.com/javaee/activation/blob/master/LICENSE.txt</url>
 	<distribution>repo</distribution>
 	<comments>CDDL or GPL version 2 plus the Classpath Exception</comments>
       </license>
@@ -127,6 +124,7 @@
 	    true
 	</findbugs.skip>
 	<findbugs.exclude/>
+        <copyright-plugin.version>1.42</copyright-plugin.version>
     </properties>
 
     <developers>
@@ -583,12 +581,24 @@
 		    <groupId>org.apache.maven.plugins</groupId>
 		    <artifactId>maven-javadoc-plugin</artifactId>
 		    <version>2.10</version>
-		 </plugin>
+		</plugin>
 		<plugin>
 		    <groupId>org.apache.maven.plugins</groupId>
 		    <artifactId>maven-project-info-reports-plugin</artifactId>
 		    <version>2.7</version>
-		 </plugin>
+		</plugin>
+		<plugin>
+		    <groupId>org.glassfish.copyright</groupId>
+		    <artifactId>glassfish-copyright-maven-plugin</artifactId>
+		    <version>${copyright-plugin.version}</version>
+		    <configuration>
+			<scm>git</scm>
+			<scmOnly>true</scmOnly> 
+			<excludeFile>
+			    copyright-exclude
+			</excludeFile>
+		    </configuration>
+		</plugin>
 	    </plugins>
 	</pluginManagement>
     </build>

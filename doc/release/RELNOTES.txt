@@ -27,7 +27,7 @@ Related Web Sites:
 There are a number of web sites you might find useful if you haven't
 already run across them:
 
-http://javamail.java.net -- The JavaMail(tm) API provides a set
+https://javaee.github.io/javamail -- The JavaMail(tm) API provides a set
                              of abstract classes that model a mail system.
                              Its implementation is dependent on the JAF.
 
