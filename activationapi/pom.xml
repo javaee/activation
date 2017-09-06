@@ -55,7 +55,7 @@
     <parent>
 	<groupId>com.sun.activation</groupId>
 	<artifactId>all</artifactId>
-	<version>1.2.0-SNAPSHOT</version>
+	<version>1.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>javax.activation</groupId>
@@ -67,6 +67,9 @@
 	<activation.extensionName>
 	    javax.activation
 	</activation.extensionName>
+	<activation.moduleName>
+	    java.activation
+	</activation.moduleName>
 	<activation.packages.export>
 	    javax.activation.*; version=${activation.spec.version}
 	</activation.packages.export>
@@ -100,7 +103,7 @@
 				<artifactItem>
 				    <groupId>com.sun.activation</groupId>
 				    <artifactId>javax.activation</artifactId>
-				    <version>${activation.version}</version>
+				    <version>${project.version}</version>
 				    <classifier>sources</classifier>
 				    <outputDirectory>
 					${project.build.directory}/sources
@@ -115,7 +118,7 @@
 			<artifactItem>
 			    <groupId>com.sun.activation</groupId>
 			    <artifactId>javax.activation</artifactId>
-			    <version>${activation.version}</version>
+			    <version>${project.version}</version>
 			</artifactItem>
 		    </artifactItems>
 		    <outputDirectory>
