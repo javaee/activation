@@ -10,3 +10,8 @@ JAF is used by [JavaMail](https://javaee.github.io/javamail)
 and [JAX-WS](https://github.com/javaee/jax-ws-spec) for data content handling.
 
 JAF is included in Java SE 6 and later.
+
+This standalone release of JAF uses a
+[Java Platform Module System](http://openjdk.java.net/projects/jigsaw/spec/)
+"automatic" module name of `java.activation`, to match the module name
+used in JDK 9.  A future version will include full module metadata.
